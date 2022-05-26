@@ -31,15 +31,24 @@ disasm or d [running]: Disassemble instructions in a file or a memory region. Th
     - list or l [any]: List break points, which contains index numbers (for deletion) and addresses.
     - load [not loaded]: Load a program into the debugger. When a program is loaded, you have to print out the address of entry point.
     - run or r [loaded and running]: Run the program. If the program is already running, show a warning message and continue the execution.
-    - vmmap or m [running]: Show memory layout for a running program. If a program is not running, you can simply display an error message.
+    - vmmap or m [running]: Show memory layout for a running program. If a program is not running, you can simply display an error message. The memory layout is:
+    ```
+    [address] [perms] [offset] [pathname]
+    ```
     - set or s [running]: Set the value of a register
     - si [running]: Run a single instruction, and step into function calls.
     - start [loaded]: Start the program and stop at the first instruction.
-    
-## Demo
+Your program may output some debug messages. In that case, please add "**" prefixes before your message. We will remove lines beginning with "**" when comparing outputs.
+
+Your program should read user commands from either user inputs (by default) or a predefined script (if -s option is given). Please check the demonstration section for the sample input and the corresponding output for more details about the implementation. The usage of this homework is:
+```
+usage: ./hw4 [-s script] [program]
+```
+## Demonstration
+We use the hello world and the guess.nopie program introduced in the class to demonstrate the usage of the simple debugger. User typed commands are marked in blue.
 -  Load a program, show maps, and run the program (hello64)
 ```
-$ ./sdb
+$ ./hw4
 sdb> load sample/hello64
 ** program 'sample/hello64' loaded. entry point 0x4000b0
 sdb> start
@@ -54,14 +63,14 @@ sdb> vmmap
 sdb> get rip
 rip = 4194480 (0x4000b0)
 sdb> run
-** program sample/hello64 is already running.
+** program sample/hello64 is already running
 hello, world!
 ** child process 16328 terminiated normally (code 0)
 sdb>
 ```
 -  Start a progrm, and show registers
 ```
-./sdb sample/hello64
+$ ./hw4 sample/hello64
 ** program 'sample/hello64' loaded. entry point 0x4000b0
 sdb> start
 ** pid 30433
@@ -73,10 +82,31 @@ RDI 0                 RSI 0                 RBP 0                 RSP 7ffc51e882
 RIP 4000b0            FLAGS 0000000000000200
 sdb>
 ```
-
-- Start a program, set a break point, check assembly output, and dump memory (hello64)
+- Start a program, set a break point, step into instruction, continue the execution, and run the program again without start (hello64).
 ```
-$ ./sdb sample/hello64
+$ ./hw4 sample/hello64
+** program 'sample/hello64' loaded. entry point 0x4000b0
+sdb> start
+** pid 74303
+sdb> b 0x4000b5
+sdb> b 0x4000ba
+sdb> cont
+** breakpoint @      4000b5: bb 01 00 00 00                     mov       ebx, 1
+sdb> si
+** breakpoint @      4000ba: b9 d4 00 60 00                     mov       ecx, 0x6000d4
+sdb> cont
+hello, world!
+** child process 74303 terminiated normally (code 0)
+sdb> run
+** pid 74325
+** breakpoint @      4000b5: bb 01 00 00 00                     mov       ebx, 1
+sdb> 
+```
+
+
+- Start a program, set a break point, continue the execution, check assembly output, and dump memory (hello64)
+```
+$ ./hw4 sample/hello64
 ** program 'sample/hello64' loaded. entry point 0x4000b0
 sdb> start
 ** pid 20354
@@ -92,19 +122,23 @@ sdb> disasm 0x4000b0
       4000cb: bb 00 00 00 00                 mov    ebx, 0
       4000d0: cd 80                          int    0x80
       4000d2: c3                             ret
-      4000d3: 00 68 65                       add    byte ptr [rax + 0x65], ch
+** the address is out of the range of the text segment
 sdb> b 0x4000c6
 sdb> disasm 0x4000c6
       4000c6: b8 01 00 00 00                 mov    eax, 1
       4000cb: bb 00 00 00 00                 mov    ebx, 0
       4000d0: cd 80                          int    0x80
       4000d2: c3                             ret
-      4000d3: 00 68 65                       add    byte ptr [rax + 0x65], ch
-      4000d6: 6c                             insb   byte ptr [rdi], dx
-      4000d7: 6c                             insb   byte ptr [rdi], dx
-      4000d8: 6f                             outsd  dx, dword ptr [rsi]
-      4000d9: 2c 20                          sub    al, 0x20
-      4000db: 77 6f                          ja     0x40014c
+** the address is out of the range of the text segment
+sdb>  cont
+hello, world!
+** breakpoint @      4000c6: b8 01 00 00 00                     mov       eax, 1
+sdb> disasm 0x4000c6
+      4000c6: b8 01 00 00 00                 mov    eax, 1
+      4000cb: bb 00 00 00 00                 mov    ebx, 0
+      4000d0: cd 80                          int    0x80
+      4000d2: c3                             ret
+** the address is out of the range of the text segment
 sdb> dump 0x4000c6
       4000c6: cc 01 00 00 00 bb 00 00 00 00 cd 80 c3 00 68 65  |..............he|
       4000d6: 6c 6c 6f 2c 20 77 6f 72 6c 64 21 0a 00 00 00 00  |llo, world!.....|
@@ -116,10 +150,21 @@ sdb>
 
 - Load a program, disassemble, set break points, run the program, and change the control flow (hello64).
 ```
-$ ./sdb sample/hello64
+$ ./hw4 sample/hello64
 ** program 'sample/hello64' loaded. entry point 0x4000b0
 sdb> start
 ** pid 16690
+sdb> disasm 0x4000b0
+      4000b0: b8 04 00 00 00                     mov       eax, 4
+      4000b5: bb 01 00 00 00                     mov       ebx, 1
+      4000ba: b9 d4 00 60 00                     mov       ecx, 0x6000d4
+      4000bf: ba 0e 00 00 00                     mov       edx, 0xe
+      4000c4: cd 80                              int       0x80
+      4000c6: b8 01 00 00 00                     mov       eax, 1
+      4000cb: bb 00 00 00 00                     mov       ebx, 0
+      4000d0: cd 80                              int       0x80
+      4000d2: c3                                 ret
+** the address is out of the range of the text segment
 sdb> b 0x4000c6
 sdb> l
   0:  4000c6
@@ -139,9 +184,9 @@ hello, world!
 sdb>
 ```
 
-- Load a program, disassemble, set break points, run the program, and change the control flow (guess).
+- Load a program, set break points, run the program, and change the control flow (guess).
 ```
-$ ./sdb sample/guess.nopie
+$ ./hw4 sample/guess.nopie
 ** program 'sample/guess' loaded. entry point 0x4006f0
 sdb> start
 ** pid 17133
