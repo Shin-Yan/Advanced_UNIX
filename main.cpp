@@ -34,7 +34,10 @@ int main(int argc,char* argv[]){
         std::getline(std::cin, cmd);
         if(strcmp(cmd.c_str() , "") == 0)
             continue;
-        exe_cmd(cmd);
+        int res;
+        res = exe_cmd(cmd);
+        if(res == RETURN_EXIT)
+            return 0;
     }
     return 0;
 }

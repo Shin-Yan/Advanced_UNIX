@@ -1,17 +1,19 @@
 #include "execmd.h"
 
+Command cmd_exit = {"exit","q","- exit: terminate the debugger",quit};
 Command cmd_help = {"help","h","- help: show this message",help};
 Command cmd_load = {"load","","- load {path/to/a/program}: load a program",load_program};
 Command cmd_start = {"start","","- start: start the program and stop at the first instruction", start};
 vector<Command> Commands;
 
 void init_cmd(){
+    Commands.push_back(cmd_exit);
     Commands.push_back(cmd_help);
     Commands.push_back(cmd_load);
     Commands.push_back(cmd_start);
 }
 
-fptr find_cmd(std::string cmd){
+fptr find_cmd(string cmd){
     vector<Command>::iterator it = Commands.begin();
     for(; it != Commands.end(); it++){
         if(it->cmd_name == cmd)
@@ -23,7 +25,7 @@ fptr find_cmd(std::string cmd){
     return NULL;
 }
 
-int exe_cmd(std::string cmd){
+int exe_cmd(string cmd){
     // cout << cmd << endl;
     stringstream cmds = stringstream(cmd);
     string command, arg;
@@ -32,4 +34,11 @@ int exe_cmd(std::string cmd){
     if(exe_cmd != NULL) 
         return exe_cmd(arg);
     return 0;
+}
+
+int quit(string cmd){
+    if(loaded_program.pid != 0){
+        kill(loaded_program.pid, SIGTERM);
+    }
+    return RETURN_EXIT;
 }

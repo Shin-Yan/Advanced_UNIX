@@ -13,12 +13,16 @@
 #define STATE_LOADED 2
 #define STATE_RUNNING 3
 
+#define RETURN_EXIT 1
 using namespace std;
 #include<iostream>
 
-int exe_cmd(string cmd);
-void init_cmd();
 typedef int (*fptr)(string);
+
+void init_cmd();
+fptr find_cmd(string);
+int exe_cmd(string);
+int quit(string);
 
 typedef struct Command{
     string cmd_name;
