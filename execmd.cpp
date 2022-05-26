@@ -2,11 +2,13 @@
 
 Command cmd_help = {"help","h","- help: show this message",help};
 Command cmd_load = {"load","","- load {path/to/a/program}: load a program",load_program};
+Command cmd_start = {"start","","- start: start the program and stop at the first instruction", start};
 vector<Command> Commands;
 
 void init_cmd(){
     Commands.push_back(cmd_help);
     Commands.push_back(cmd_load);
+    Commands.push_back(cmd_start);
 }
 
 fptr find_cmd(std::string cmd){

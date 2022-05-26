@@ -7,10 +7,14 @@
 #include"execmd.h"
 
 int state = STATE_NOT_LOADED;
-
+void init_program(){
+    loaded_program.base_addr = 0;
+    loaded_program.pid = 0;
+}
 int main(int argc,char* argv[]){
-    FILE* input = stdin;
+    // FILE* input = stdin;
     init_cmd();
+    init_program();
     // std::cout<< "argc = " << argc << std::endl;
     if(argc != 1){
         if(argc == 2 ){

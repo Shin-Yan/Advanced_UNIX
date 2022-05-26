@@ -11,6 +11,8 @@ using namespace std;
 
 #define ENTRY_POINT_OFFSET 0x18
 #define ENTRY_POINT_SIZE 0x8
+#define TYPE_OFFSET 0x10
+#define TYPE_SIZE 0x02
 
 int load_program(std::string program_name);
 

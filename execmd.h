@@ -7,6 +7,7 @@
 
 #include "help.h"
 #include "load.h"
+#include "start.h"
 
 #define STATE_NOT_LOADED 1
 #define STATE_LOADED 2
@@ -35,7 +36,10 @@ typedef struct elf_header{
 
 typedef struct program_info{
     string program_name;
+    pid_t pid;
+    int dynamic;
     elf_header loaded_elf;
+    unsigned long long base_addr;
 } program_info;
 
 extern vector<Command> Commands;
