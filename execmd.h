@@ -3,8 +3,10 @@
 
 #include<string>
 #include<vector>
+#include<sstream>
 
 #include "help.h"
+#include "load.h"
 
 #define STATE_NOT_LOADED 1
 #define STATE_LOADED 2
@@ -24,5 +26,19 @@ typedef struct Command{
     fptr cmd_fptr;
 } Command;
 
+typedef struct elf_header{
+    unsigned long long entry_point;
+    unsigned long long virtula_address;
+    unsigned long long offset;
+    size_t size;
+} elf_header;
+
+typedef struct program_info{
+    string program_name;
+    elf_header loaded_elf;
+} program_info;
+
 extern vector<Command> Commands;
+extern program_info loaded_program;
+// extern long long int entry_point;
 #endif
