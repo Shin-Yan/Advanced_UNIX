@@ -22,10 +22,10 @@ int get_elf_info(string path){
 
     // get dynamic or not
     unsigned long long is_dynamic = get_Lvalue(TYPE_SIZE, TYPE_OFFSET, elf);
-    cout << "is_dynamic = " << is_dynamic <<endl;
+    // cout << "is_dynamic = " << is_dynamic <<endl;
     if(is_dynamic == 0x03){
         loaded_program.dynamic = 1;
-        cout << "This program is using dynamic address!" <<endl;
+        // cout << "This program is using dynamic address!" <<endl;
     }
     else
         loaded_program.dynamic = 0;

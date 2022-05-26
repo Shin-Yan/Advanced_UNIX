@@ -35,7 +35,7 @@ int start(string cmd){
         }
         char * args[] = {(char*)("./"+loaded_program.program_name).c_str(), NULL};
         
-        cout << "program name is " << loaded_program.program_name << endl;
+        // cout << "program name is " << loaded_program.program_name << endl;
         if(execvp(args[0],args) == -1){
             perror("execvp");
             exit(0);
