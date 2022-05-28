@@ -9,6 +9,7 @@
 #include "load.h"
 #include "start.h"
 #include "vmmap.h"
+#include "dump.h"
 
 #define STATE_NOT_LOADED 1
 #define STATE_LOADED 2
