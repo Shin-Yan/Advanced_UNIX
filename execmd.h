@@ -8,6 +8,7 @@
 #include "help.h"
 #include "load.h"
 #include "start.h"
+#include "vmmap.h"
 
 #define STATE_NOT_LOADED 1
 #define STATE_LOADED 2
