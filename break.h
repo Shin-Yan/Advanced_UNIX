@@ -9,7 +9,6 @@
 using namespace std;
 
 typedef struct breakpoint{
-    int id;
     unsigned long long address;
     unsigned char origin_command;
     bool fix_flag;
@@ -18,5 +17,7 @@ typedef struct breakpoint{
 bool addr_in_text(unsigned long long);
 unsigned char change_byte(unsigned long long, unsigned char);
 int set_breakpoint(string);
+int list(string);
+int del(string);
 
 #endif

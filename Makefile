@@ -7,6 +7,7 @@ LIBS = -lelf -lcapstone
 
 all: $(OBJ)
 	$(CC) $(CFLAG) -o $(BUILD) $(OBJ) $(LIBS)
+	rm -rf *.o
 
 %.o: %.cpp
 	$(CC) $(CFLAG) -c $^ -o $@ $(LIBS)
