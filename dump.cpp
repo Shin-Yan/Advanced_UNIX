@@ -14,6 +14,7 @@ int dump(string addr){
     // cout << "dump address = " << dump_addr << endl;
     if(dump_addr == 0){
         cout << "** no addr is given" << endl;
+        return 0;
     }
 
     unsigned char dump_data[80];

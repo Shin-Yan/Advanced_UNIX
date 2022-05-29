@@ -15,7 +15,6 @@ int main(int argc,char* argv[]){
     // FILE* input = stdin;
     init_cmd();
     init_program();
-    // std::cout<< "argc = " << argc << std::endl;
     if(argc != 1){
         if(argc == 2 ){
             std::string load_file = std::string(argv[1]);

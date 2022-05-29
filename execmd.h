@@ -35,7 +35,7 @@ typedef struct Command{
 
 typedef struct elf_header{
     unsigned long long entry_point;
-    unsigned long long virtula_address;
+    unsigned long long virtual_address;
     unsigned long long offset;
     size_t size;
 } elf_header;

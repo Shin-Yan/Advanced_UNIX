@@ -25,12 +25,12 @@ fptr find_cmd(string cmd){
         if(it->cmd_shortname == cmd && cmd != "")
             return it->cmd_fptr;
     }
-    // cout << "return NULL!!!"<<endl;
+    
     return NULL;
 }
 
 int exe_cmd(string cmd){
-    // cout << cmd << endl;
+    
     stringstream cmds = stringstream(cmd);
     string command, arg;
     cmds >> command >> arg;
