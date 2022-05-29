@@ -29,7 +29,9 @@ using namespace std;
 #define SH_NAME_OFFSET 0x0
 #define SH_NAME_SIZE 0x4
 
-int load_program(std::string program_name);
+unsigned long long get_Lvalue(unsigned long long, unsigned long long, unsigned char*);
+int get_elf_info(string);
+int load_program(string);
 
 extern int state;
 

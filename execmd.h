@@ -10,6 +10,7 @@
 #include "start.h"
 #include "vmmap.h"
 #include "dump.h"
+#include "break.h"
 
 #define STATE_NOT_LOADED 1
 #define STATE_LOADED 2
@@ -46,6 +47,7 @@ typedef struct program_info{
     int dynamic;
     elf_header loaded_elf;
     unsigned long long base_addr;
+    vector<struct breakpoint> bps;
 } program_info;
 
 extern vector<Command> Commands;

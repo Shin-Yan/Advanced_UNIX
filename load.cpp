@@ -60,6 +60,7 @@ int get_elf_info(string path){
         }
         sec_ptr+= shentsize;
     }
+    close(fd);
     return 0;
 }
 
