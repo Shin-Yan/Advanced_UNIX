@@ -58,6 +58,9 @@ int list(string cmd){
 }
 
 int del(string breakpoint_id) {
+    if(state != STATE_RUNNING){
+        cout << "** state must be RUNNING" << endl;
+    }
     int id = strtol(breakpoint_id.c_str(), NULL, 10);
     if(id <= (int)loaded_program.bps.size()-1){
         change_byte(loaded_program.bps[id].address, loaded_program.bps[id].origin_command);

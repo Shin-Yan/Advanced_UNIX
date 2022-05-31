@@ -11,6 +11,7 @@
 #include "vmmap.h"
 #include "dump.h"
 #include "break.h"
+#include "register.h"
 
 #define STATE_NOT_LOADED 1
 #define STATE_LOADED 2
@@ -20,7 +21,9 @@
 using namespace std;
 #include<iostream>
 
-typedef int (*fptr)(string);
+typedef void (*fptr)(void);
+typedef int (*fptr1)(string);
+typedef int (*fptr2)(string,string);
 
 void init_cmd();
 fptr find_cmd(string);
@@ -48,6 +51,7 @@ typedef struct program_info{
     elf_header loaded_elf;
     unsigned long long base_addr;
     vector<struct breakpoint> bps;
+    struct user_regs_struct regs;
 } program_info;
 
 extern vector<Command> Commands;
