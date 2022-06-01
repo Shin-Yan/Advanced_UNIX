@@ -12,6 +12,7 @@
 #include "dump.h"
 #include "break.h"
 #include "register.h"
+#include "cont.h"
 
 #define STATE_NOT_LOADED 1
 #define STATE_LOADED 2
@@ -47,9 +48,9 @@ typedef struct elf_header{
 typedef struct program_info{
     string program_name;
     pid_t pid;
-    int dynamic;
+    // int dynamic;
     elf_header loaded_elf;
-    unsigned long long base_addr;
+    // unsigned long long base_addr;
     vector<struct breakpoint> bps;
     struct user_regs_struct regs;
 } program_info;

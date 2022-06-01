@@ -12,7 +12,7 @@ int get_elf_info(string path){
     int fd = open(path.c_str(), O_RDONLY);
     if(fd < 0){
         perror("fopen");
-        return -1;
+        return RETURN_EXIT;
     }
     unsigned char elf[0x40];
     read(fd, elf, 0x40);
@@ -20,11 +20,6 @@ int get_elf_info(string path){
     unsigned long long entry_point = get_Lvalue(ENTRY_POINT_SIZE,ENTRY_POINT_OFFSET,elf);
     loaded_program.loaded_elf.entry_point = entry_point;
     loaded_program.loaded_elf.virtual_address = entry_point;
-
-    // get dynamic or not
-    unsigned long long is_dynamic = get_Lvalue(TYPE_SIZE, TYPE_OFFSET, elf);
-    if(is_dynamic == 0x03)
-        loaded_program.dynamic = is_dynamic == 0x03;
 
     //get sh information
     unsigned long long shoff = get_Lvalue(E_SHOFF_SIZE,E_SHOFF_OFFSET,elf);
@@ -40,9 +35,6 @@ int get_elf_info(string path){
     unsigned char * name_str_ptr = section_data + shstrndx * shentsize;
     unsigned long long sh_name_offset = get_Lvalue(SH_OFFSET_SIZE, SH_OFFSET_OFFSET, name_str_ptr);
     unsigned long long sh_name_size = get_Lvalue(SH_SIZE_SIZE, SH_SIZE_OFFSET, name_str_ptr);
-    // loaded_program.loaded_elf.offset = sh_offset;
-    // loaded_program.loaded_elf.size = sh_size;
-    // cout << "offset = " << sh_name_offset << " size = " << sh_name_size << endl;
 
     char name[sh_name_size];
     lseek(fd, sh_name_offset, SEEK_SET);
@@ -56,7 +48,6 @@ int get_elf_info(string path){
             unsigned long long sh_size = get_Lvalue(SH_SIZE_SIZE, SH_SIZE_OFFSET, sec_ptr);
             loaded_program.loaded_elf.offset = sh_offset;
             loaded_program.loaded_elf.size = sh_size;
-            // cout << "offset = " << sh_offset << " size = " << sh_size << endl;
         }
         sec_ptr+= shentsize;
     }
@@ -70,7 +61,7 @@ int load_program(string program_name){
         return 0;
     }
     if(get_elf_info(program_name)!=0){
-        return 0;
+        return RETURN_EXIT;
     }
     
     state = STATE_LOADED;

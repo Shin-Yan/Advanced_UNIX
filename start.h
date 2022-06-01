@@ -10,7 +10,6 @@
 #include "execmd.h"
 
 using namespace std;
-void get_base_addr();
 int start(string);
 
 #endif

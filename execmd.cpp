@@ -5,7 +5,7 @@ Command cmd_del = {"delete","","- delete {break-point-id}: remove a break point"
 Command cmd_dump = {"dump","x","- dump addr: dump memory content", (fptr)&dump};
 Command cmd_exit = {"exit","q","- exit: terminate the debugger",(fptr)&quit};
 Command cmd_getreg = {"get", "g" , "- get reg: get a single value from a register", (fptr)&getreg};
-Command cmd_getregs = {"getregs", "h" , "- getregs: show registers", (fptr)&get_all_regs};
+Command cmd_getregs = {"getregs", "" , "- getregs: show registers", (fptr)&get_all_regs};
 Command cmd_help = {"help","h","- help: show this message",(fptr)&help};
 Command cmd_list = {"list","l","- list: list break points",(fptr)&list};
 Command cmd_load = {"load","","- load {path/to/a/program}: load a program",(fptr)&load_program};
@@ -30,14 +30,12 @@ void init_cmd(){
 }
 
 fptr find_cmd(string cmd){
-    // cout << "after to lower" << tolower(cmd) << endl;
-    // cout << cmd <<endl;
-    vector<Command>::iterator it = Commands.begin();
-    for(; it != Commands.end(); it++){
-        if(it->cmd_name == cmd)
-            return it->cmd_fptr;
-        if(it->cmd_shortname == cmd && cmd != "")
-            return it->cmd_fptr;
+    
+    for(auto &x: Commands){
+        if(x.cmd_name == cmd)
+            return x.cmd_fptr;
+        if(x.cmd_shortname == cmd && cmd != "")
+            return x.cmd_fptr;
     }
     
     return NULL;

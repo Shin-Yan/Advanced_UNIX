@@ -11,7 +11,7 @@ using namespace std;
 typedef struct breakpoint{
     unsigned long long address;
     unsigned char origin_command;
-    bool fix_flag;
+    // bool fix_flag;
 }breakpoint;
 
 bool addr_in_text(unsigned long long);

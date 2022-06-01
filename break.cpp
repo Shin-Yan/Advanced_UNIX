@@ -1,10 +1,13 @@
 #include"break.h"
 
 bool addr_in_text(unsigned long long addr){
-   if(state == STATE_RUNNING && loaded_program.dynamic == 1) {
-        unsigned long long true_addr = loaded_program.base_addr + loaded_program.loaded_elf.virtual_address;
-        return (addr >= true_addr && addr <= (true_addr + loaded_program.loaded_elf.size));
-    }
+//    if(state == STATE_RUNNING && loaded_program.dynamic == 1) {
+//        cout << loaded_program.base_addr <<" " << loaded_program.loaded_elf.virtual_address << endl;
+//         unsigned long long true_addr = loaded_program.base_addr + loaded_program.loaded_elf.virtual_address;
+//         printf("It's dynamic and true addr is 0x%llx\n",true_addr);
+//         return (addr >= true_addr && addr <= (true_addr + loaded_program.loaded_elf.size));
+//     }
+//     cout << "It's not dynamic" << endl;
     return (addr >= loaded_program.loaded_elf.virtual_address && addr < (loaded_program.loaded_elf.virtual_address + loaded_program.loaded_elf.size));
 }
 
@@ -25,19 +28,18 @@ int set_breakpoint(string addr){
         return 0;
     }
     if(addr_in_text(b_addr)){
-        vector<breakpoint>::iterator it = loaded_program.bps.begin();
+        
         int i = 0;
-        while(it != loaded_program.bps.end()){
-            if(b_addr == it->address){
+        for(auto &x: loaded_program.bps){
+            if(b_addr == x.address){
                 printf("** the breakpoint is already exists. (breakpoint %d)\n", i);
                 return 0;
             }
-            it ++;
             i++;
         }
         unsigned char replace = 0xcc;
         unsigned char origin_cmd = change_byte(b_addr, replace);
-        breakpoint newbp = {b_addr, origin_cmd, true};
+        breakpoint newbp = {b_addr, origin_cmd};
         loaded_program.bps.push_back(newbp);
     }
     else{
@@ -47,11 +49,10 @@ int set_breakpoint(string addr){
 }
 
 int list(string cmd){
-    vector<breakpoint>::iterator it = loaded_program.bps.begin();
+    
     int i = 0 ;
-    while(it != loaded_program.bps.end()){
-        printf("  %d: %llx\n",i,it->address);
-        it ++ ;
+    for(auto &x: loaded_program.bps){
+        printf("  %d: %llx\n",i,x.address);
         i++;
     }
     return 0;

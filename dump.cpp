@@ -11,7 +11,6 @@ int dump(string addr){
         return 0;
     }
     dump_addr = strtol(addr.c_str(),NULL,16);
-    // cout << "dump address = " << dump_addr << endl;
     if(dump_addr == 0){
         cout << "** no addr is given" << endl;
         return 0;
