@@ -20,8 +20,12 @@ int dump(string addr){
     for(int i=0 ;i<5 ;i++){
         printf("      %llx: ", dump_addr);
         for(int j=0 ; j<16 ; j++){
-            dump_data[16 * i + j] = ptrace(PTRACE_PEEKDATA, loaded_program.pid, dump_addr, NULL);
-            printf("%02x ", dump_data[16 * i + j]);
+            if(dump_addr != loaded_program.bps[loaded_program.hit_id].address){
+                dump_data[16 * i + j] = ptrace(PTRACE_PEEKDATA, loaded_program.pid, dump_addr, NULL);
+                printf("%02x ", dump_data[16 * i + j]);
+            }
+            else
+                printf("cc ");
             dump_addr ++ ;
         }
         printf("|"); 

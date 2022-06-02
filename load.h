@@ -28,6 +28,8 @@ using namespace std;
 #define SH_SIZE_SIZE 0x8
 #define SH_NAME_OFFSET 0x0
 #define SH_NAME_SIZE 0x4
+#define SH_ADDRESS_OFFSET 0x10
+#define SH_ADDRESS_SIZE 0x08
 
 unsigned long long get_Lvalue(unsigned long long, unsigned long long, unsigned char*);
 int get_elf_info(string);

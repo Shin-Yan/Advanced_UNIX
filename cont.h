@@ -2,12 +2,16 @@
 #define _CONT_H
 
 #include "execmd.h"
-#include<iostream>
-#include<string>
+#include "register.h"
+#include <iostream>
+#include <string>
+#include <capstone/capstone.h>
 
 using namespace std;
 
-int check_bp();
+void disasm_one_instruction(unsigned long long);
+unsigned long long get_reg_value(string);
+int check_bp(void);
 int si(string);
 
 #endif

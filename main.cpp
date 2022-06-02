@@ -8,7 +8,7 @@
 
 int state = STATE_NOT_LOADED;
 void init_program(){
-    // loaded_program.base_addr = 0;
+    loaded_program.hit_id = -1;
     loaded_program.pid = 0;
 }
 int main(int argc,char* argv[]){

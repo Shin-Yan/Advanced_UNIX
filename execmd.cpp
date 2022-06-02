@@ -11,6 +11,7 @@ Command cmd_list = {"list","l","- list: list break points",(fptr)&list};
 Command cmd_load = {"load","","- load {path/to/a/program}: load a program",(fptr)&load_program};
 Command cmd_vmmap = {"vmmap","m","- vmmap: show memory layout",(fptr)&vmmap};
 Command cmd_set = {"set" ,"s" , "- set reg val: get a single value to a register", (fptr)&setreg};
+Command cmd_si = {"si","","- si: step into instruction",(fptr)&si};
 Command cmd_start = {"start","","- start: start the program and stop at the first instruction", (fptr)&start};
 vector<Command> Commands;
 
@@ -26,6 +27,7 @@ void init_cmd(){
     Commands.push_back(cmd_load);
     Commands.push_back(cmd_vmmap);
     Commands.push_back(cmd_set);
+    Commands.push_back(cmd_si);
     Commands.push_back(cmd_start);
 }
 

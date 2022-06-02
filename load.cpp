@@ -48,6 +48,11 @@ int get_elf_info(string path){
             unsigned long long sh_size = get_Lvalue(SH_SIZE_SIZE, SH_SIZE_OFFSET, sec_ptr);
             loaded_program.loaded_elf.offset = sh_offset;
             loaded_program.loaded_elf.size = sh_size;
+            loaded_program.asm_address = get_Lvalue(SH_ADDRESS_SIZE, SH_ADDRESS_OFFSET, sec_ptr);
+            lseek(fd, sh_offset, SEEK_SET);
+            char* code = (char*)malloc(sh_size);
+            loaded_program.asm_code = code;
+            read(fd, loaded_program.asm_code, sh_size);
         }
         sec_ptr+= shentsize;
     }

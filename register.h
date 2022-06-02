@@ -77,4 +77,7 @@ int getreg(string);
 int get_all_regs(string);
 int setreg(string,string);
 
+extern int reg_num;
+extern struct REG REGS[];
+
 #endif

@@ -53,6 +53,9 @@ typedef struct program_info{
     // unsigned long long base_addr;
     vector<struct breakpoint> bps;
     struct user_regs_struct regs;
+    unsigned long long asm_address;
+    char* asm_code;
+    int hit_id;
 } program_info;
 
 extern vector<Command> Commands;
