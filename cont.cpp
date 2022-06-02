@@ -24,7 +24,7 @@ void disasm_one_instruction(unsigned long long address){
 
 unsigned long long get_reg_value(string reg){
     if(ptrace(PTRACE_GETREGS, loaded_program.pid, 0, &loaded_program.regs) < 0) {
-        perror("ptrace");
+        perror("** ptrace");
         return 0;
     }
     for(int i = 0; i < reg_num; i++) {
@@ -52,7 +52,7 @@ int check_bp(){
             unsigned long long program_counter = get_reg_value("RIP");
             
             if(x.address == program_counter){
-                loaded_program.hit_id = i;
+                
                 cout << "** breakpoint @" ;
                 disasm_one_instruction(x.address);
                 change_byte(x.address, x.origin_command);
@@ -83,18 +83,27 @@ int si(string cmd){
         cout << "** state must be RUNNING" << endl;
         return 0;
     }
-    ptrace(PTRACE_SINGLESTEP , loaded_program.pid , NULL , NULL);
-    int ret,i;
+    if(ptrace(PTRACE_SINGLESTEP , loaded_program.pid , NULL , NULL)<0){
+        perror("** ptrace");
+        return 0;
+    }
+    int ret,i ;
     ret = check_bp();
     
     if(ret >= 0){
-        i = 0 ;
+        i = 0;
         for(auto &x : loaded_program.bps){
             if(i == loaded_program.hit_id && i != ret){
                 unsigned char origin = change_byte(x.address, 0xcc);
                 x.origin_command = origin;
             }
+            i++;
         }
     }
+    loaded_program.hit_id = ret;
     return 0;
+}
+
+int cont(string cmd){
+
 }

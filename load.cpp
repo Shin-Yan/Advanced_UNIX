@@ -11,7 +11,7 @@ unsigned long long get_Lvalue(unsigned long long size, unsigned long long offset
 int get_elf_info(string path){
     int fd = open(path.c_str(), O_RDONLY);
     if(fd < 0){
-        perror("fopen");
+        perror("** fopen");
         return RETURN_EXIT;
     }
     unsigned char elf[0x40];

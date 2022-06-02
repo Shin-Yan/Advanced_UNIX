@@ -25,18 +25,18 @@ int start(string cmd){
     }
     loaded_program.pid = fork();
     if(loaded_program.pid < 0){
-        perror("fork");
+        perror("** fork");
         return 0;
     }
     else if(loaded_program.pid == 0){ //child process
         if(ptrace(PTRACE_TRACEME, 0, NULL, NULL) < 0) {
-            perror("ptrace");
+            perror("** ptrace");
             return 0;
         }
         char * args[] = {(char*)("./"+loaded_program.program_name).c_str(), NULL};
         
         if(execvp(args[0],args) == -1){
-            perror("execvp");
+            perror("** execvp");
             exit(0);
         }
     }

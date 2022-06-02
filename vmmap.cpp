@@ -13,7 +13,7 @@ int vmmap(string cmd){
         cout << "pid = " << loaded_program.pid <<endl;
         FILE* f = fopen(path.c_str(), "r");
         if (f == NULL){
-            perror("fopen");
+            perror("** fopen");
             return 0;
         }
         unsigned long long   begin_addr , end_addr  , inode;
