@@ -45,6 +45,9 @@ int start(string cmd){
         waitpid(loaded_program.pid, &status , 0);
         ptrace(PTRACE_SETOPTIONS, loaded_program.pid, 0, PTRACE_O_EXITKILL);
         state = STATE_RUNNING;
+        for(auto &x: loaded_program.bps){
+            x.origin_command = change_byte(x.address,(unsigned char)0xcc);
+        }
 
         cout << "** pid " << loaded_program.pid << endl;
     }

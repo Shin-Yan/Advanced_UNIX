@@ -1,6 +1,7 @@
 #include "execmd.h"
 
 Command cmd_break = {"break","b","- break {instruction-address}: add a break point",(fptr)&set_breakpoint};
+Command cmd_cont = {"cont","c","- cont: continue execution",(fptr)&cont};
 Command cmd_del = {"delete","","- delete {break-point-id}: remove a break point",(fptr)&del};
 Command cmd_dump = {"dump","x","- dump addr: dump memory content", (fptr)&dump};
 Command cmd_exit = {"exit","q","- exit: terminate the debugger",(fptr)&quit};
@@ -17,6 +18,7 @@ vector<Command> Commands;
 
 void init_cmd(){
     Commands.push_back(cmd_break);
+    Commands.push_back(cmd_cont);
     Commands.push_back(cmd_del);
     Commands.push_back(cmd_dump);
     Commands.push_back(cmd_exit);

@@ -18,7 +18,9 @@
 #define STATE_LOADED 2
 #define STATE_RUNNING 3
 
-#define RETURN_EXIT 1
+#define RETURN_EXIT -1
+#define RETURN_TERMINATE -1
+#define RETURN_CONT -2
 using namespace std;
 #include<iostream>
 
@@ -46,16 +48,17 @@ typedef struct elf_header{
 } elf_header;
 
 typedef struct program_info{
-    string program_name;
     pid_t pid;
-    // int dynamic;
-    elf_header loaded_elf;
-    // unsigned long long base_addr;
+    
+    unsigned long long asm_address;
+    unsigned long long stop_address;
+    unsigned long long hit_address;
+    char* asm_code;
     vector<struct breakpoint> bps;
     struct user_regs_struct regs;
-    unsigned long long asm_address;
-    char* asm_code;
-    int hit_id;
+    elf_header loaded_elf;
+    string program_name;
+
 } program_info;
 
 extern vector<Command> Commands;

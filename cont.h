@@ -11,7 +11,7 @@ using namespace std;
 
 void disasm_one_instruction(unsigned long long);
 unsigned long long get_reg_value(string);
-int check_bp(void);
+unsigned long long check_bp(void);
 int si(string);
 int cont(string);
 

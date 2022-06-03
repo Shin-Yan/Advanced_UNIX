@@ -36,33 +36,32 @@ unsigned long long get_reg_value(string reg){
     return 0;
 }
 
-int check_bp(){
+unsigned long long check_bp(){
     int status;
     waitpid(loaded_program.pid, &status, 0);
     if(WIFSTOPPED(status)){
-        printf("PC = 0x%llx\n",get_reg_value("RIP")); 
+        // printf("PC = 0x%llx\n",get_reg_value("RIP")); 
         if(WSTOPSIG(status) != SIGTRAP){
             printf("** %d stop by signal\n", loaded_program.pid);
             loaded_program.pid = 0;
             state = STATE_LOADED;
-            return -1;
+            return RETURN_TERMINATE;
         }
-        int i = 0;
+        unsigned long long program_counter = get_reg_value("RIP");
+        loaded_program.stop_address = program_counter;
         for(auto &x: loaded_program.bps){
-            unsigned long long program_counter = get_reg_value("RIP");
-            
+            // cout << "checking bps" << endl;
             if(x.address == program_counter){
                 
                 cout << "** breakpoint @" ;
                 disasm_one_instruction(x.address);
                 change_byte(x.address, x.origin_command);
-                return i;
+                return x.address;
             }
-            i++;
             // else
             //     printf("PC = 0x%llx\n",program_counter); 
         }
-        return -1;
+        return RETURN_CONT;
     }    
     
 
@@ -73,9 +72,9 @@ int check_bp(){
            printf("** chlid process %d terminiated normally (code %d)\n", loaded_program.pid, status);
        loaded_program.pid = 0;
        state = STATE_LOADED;
-       return -1;
+       return RETURN_TERMINATE;
     }
-    return -1;
+    return RETURN_TERMINATE;
 }
 
 int si(string cmd){
@@ -83,27 +82,40 @@ int si(string cmd){
         cout << "** state must be RUNNING" << endl;
         return 0;
     }
+    for(auto &x: loaded_program.bps){
+        if(x.address == loaded_program.stop_address){
+            // cout << "breakpoint same as stop_address!" << endl;
+            // printf("0x%x\n",x.origin_command);
+            change_byte(x.address, x.origin_command);
+            loaded_program.hit_address = x.address;
+        }
+    }
     if(ptrace(PTRACE_SINGLESTEP , loaded_program.pid , NULL , NULL)<0){
         perror("** ptrace");
         return 0;
     }
-    int ret,i ;
+    unsigned long long ret;
     ret = check_bp();
-    
+    // cout << "stop address = "<<get_reg_value("RIP") << endl;
     if(ret >= 0){
-        i = 0;
         for(auto &x : loaded_program.bps){
-            if(i == loaded_program.hit_id && i != ret){
-                unsigned char origin = change_byte(x.address, 0xcc);
+            if(x.address == loaded_program.hit_address && x.address != ret){
+                unsigned char origin = change_byte(x.address,(unsigned char)0xcc);
                 x.origin_command = origin;
             }
-            i++;
         }
     }
-    loaded_program.hit_id = ret;
-    return 0;
+    loaded_program.hit_address = ret;
+    // printf("%llx\n",ret);
+    if(ret == (unsigned long long)RETURN_CONT)
+        return RETURN_CONT;
+    else
+        return 0;
 }
 
 int cont(string cmd){
-
+    while(si("") == RETURN_CONT){
+        // cout << "continue" << endl;
+    };
+    return 0;
 }

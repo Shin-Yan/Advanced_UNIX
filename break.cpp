@@ -40,7 +40,7 @@ int set_breakpoint(string addr){
         unsigned char replace = 0xcc;
         unsigned char origin_cmd = change_byte(b_addr, replace);
         breakpoint newbp = {b_addr, origin_cmd};
-        loaded_program.bps.push_back(newbp);
+        loaded_program.bps.push_back(newbp);        
     }
     else{
         cout << "** the address is out of the range of the text segment" <<endl;

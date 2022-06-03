@@ -8,7 +8,8 @@
 
 int state = STATE_NOT_LOADED;
 void init_program(){
-    loaded_program.hit_id = -1;
+    loaded_program.hit_address = -1;
+    loaded_program.stop_address = -1;
     loaded_program.pid = 0;
 }
 int main(int argc,char* argv[]){
@@ -28,6 +29,7 @@ int main(int argc,char* argv[]){
             printf("usage: ./hw4 [-s script] [program]\n");
     }   
     while(true){
+        
         printf("sdb> ");
 
         std::string cmd;
