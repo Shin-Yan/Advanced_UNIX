@@ -13,6 +13,7 @@
 #include "break.h"
 #include "register.h"
 #include "cont.h"
+#include "run.h"
 
 #define STATE_NOT_LOADED 1
 #define STATE_LOADED 2

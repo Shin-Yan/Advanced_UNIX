@@ -10,6 +10,7 @@ Command cmd_getregs = {"getregs", "" , "- getregs: show registers", (fptr)&get_a
 Command cmd_help = {"help","h","- help: show this message",(fptr)&help};
 Command cmd_list = {"list","l","- list: list break points",(fptr)&list};
 Command cmd_load = {"load","","- load {path/to/a/program}: load a program",(fptr)&load_program};
+Command cmd_run = {"run","r","- run: run the program",(fptr)&run};
 Command cmd_vmmap = {"vmmap","m","- vmmap: show memory layout",(fptr)&vmmap};
 Command cmd_set = {"set" ,"s" , "- set reg val: get a single value to a register", (fptr)&setreg};
 Command cmd_si = {"si","","- si: step into instruction",(fptr)&si};
@@ -27,6 +28,7 @@ void init_cmd(){
     Commands.push_back(cmd_help);
     Commands.push_back(cmd_list);
     Commands.push_back(cmd_load);
+    Commands.push_back(cmd_run);
     Commands.push_back(cmd_vmmap);
     Commands.push_back(cmd_set);
     Commands.push_back(cmd_si);
