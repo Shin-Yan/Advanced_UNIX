@@ -38,8 +38,6 @@ void init_cmd(){
 }
 
 void init_program(){
-    loaded_program.hit_address = -1;
-    loaded_program.stop_address = -1;
     loaded_program.pid = 0;
 }
 

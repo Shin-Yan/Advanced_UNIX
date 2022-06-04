@@ -30,13 +30,12 @@ string tolower(string register_name){
 }
 
 int getreg(string reg){
-    // cout << "in the get regs state" << endl;
     if(state != STATE_RUNNING){
         cout << "** state must be RUNNING" <<endl;
         return 0;
     }
     if(ptrace(PTRACE_GETREGS, loaded_program.pid, 0, &loaded_program.regs) < 0) {
-        printf("** getreg error: ptrace error\n");
+        perror("ptrace");
         return 0;
     }
     for(int i = 0 ; i < reg_num ; i++){
@@ -62,7 +61,7 @@ int get_all_regs(string cmd){
     for(int i = 0 ; i < reg_num ; i++){
         unsigned long long target_addr = REGS[i].get(&loaded_program.regs);
         if(i == 17)
-            printf("%s %016llx\n",REGS[i].name.c_str(), REGS[i].get(&loaded_program.regs));
+            printf("%s %016llx\n",REGS[i].name.c_str(), target_addr);
         else
             printf("%-3s %-15llx",REGS[i].name.c_str(), target_addr);
         if(i%4 == 3) printf("\n");

@@ -8,9 +8,7 @@ int vmmap(string cmd){
         return 0;
     }
     else{
-        // cout << "** state is RUNNING" <<endl;
         string path = "/proc/" + to_string(loaded_program.pid) + "/maps";
-        // cout << "pid = " << loaded_program.pid <<endl;
         FILE* f = fopen(path.c_str(), "r");
         if (f == NULL){
             perror("** fopen");
@@ -19,7 +17,6 @@ int vmmap(string cmd){
         unsigned long long   begin_addr , end_addr  , inode;
         char permission[4] , file_path[100];
         int ret_val;
-        // int i=0;
         while(true){
             ret_val = fscanf(f,VMMAP_READ_FORMAT,&begin_addr,&end_addr,permission,&inode);
             permission[3] = '\0';

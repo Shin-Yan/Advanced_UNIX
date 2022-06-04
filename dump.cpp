@@ -1,7 +1,7 @@
 #include "dump.h"
 
 int dump(string addr){
-    unsigned long long dump_addr;
+    unsigned long long dump_addr, offset;
     if(addr == ""){
         cout << "** no addr is given" << endl;
         return 0;
@@ -17,10 +17,17 @@ int dump(string addr){
     }
 
     unsigned char dump_data[80];
+    bool hit[80] = {false};
+    for(auto &x: loaded_program.bps){
+        offset = x.address -dump_addr;
+        if(offset< 80){
+            hit[offset] = true;
+        }
+    }
     for(int i=0 ;i<5 ;i++){
         printf("      %llx: ", dump_addr);
         for(int j=0 ; j<16 ; j++){
-            if(dump_addr != loaded_program.hit_address){
+            if(!hit[16 * i + j]){
                 dump_data[16 * i + j] = ptrace(PTRACE_PEEKDATA, loaded_program.pid, dump_addr, NULL);
                 printf("%02x ", dump_data[16 * i + j]);
             }

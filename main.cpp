@@ -9,7 +9,6 @@
 int state = STATE_NOT_LOADED;
 
 int main(int argc,char* argv[]){
-    // FILE* input = stdin;
     init_cmd();
     init_program();
     if(argc != 1){

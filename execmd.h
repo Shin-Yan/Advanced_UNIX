@@ -53,8 +53,6 @@ typedef struct program_info{
     pid_t pid;
     
     unsigned long long asm_address;
-    unsigned long long stop_address;
-    unsigned long long hit_address;
     char* asm_code;
     vector<struct breakpoint> bps;
     struct user_regs_struct regs;
@@ -65,5 +63,4 @@ typedef struct program_info{
 
 extern vector<Command> Commands;
 extern program_info loaded_program;
-// extern long long int entry_point;
 #endif
