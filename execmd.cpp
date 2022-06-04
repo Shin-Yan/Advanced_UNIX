@@ -37,6 +37,12 @@ void init_cmd(){
     Commands.push_back(cmd_start);
 }
 
+void init_program(){
+    loaded_program.hit_address = -1;
+    loaded_program.stop_address = -1;
+    loaded_program.pid = 0;
+}
+
 fptr find_cmd(string cmd){
     
     for(auto &x: Commands){
@@ -66,5 +72,6 @@ int quit(string cmd){
     if(loaded_program.pid != 0){
         kill(loaded_program.pid, SIGTERM);
     }
+    free(loaded_program.asm_code);
     return RETURN_EXIT;
 }

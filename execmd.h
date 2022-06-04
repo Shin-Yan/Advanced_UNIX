@@ -31,6 +31,7 @@ typedef int (*fptr1)(string);
 typedef int (*fptr2)(string,string);
 
 void init_cmd();
+void init_program();
 fptr find_cmd(string);
 int exe_cmd(string);
 int quit(string);

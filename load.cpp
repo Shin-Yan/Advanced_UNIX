@@ -67,7 +67,7 @@ int load_program(string program_name){
     if(get_elf_info(program_name)!=0){
         return RETURN_EXIT;
     }
-    
+    init_program();
     state = STATE_LOADED;
     loaded_program.program_name = program_name; 
     printf("** program '%s' loaded. entry point 0x%-6llx\n", program_name.c_str(),loaded_program.loaded_elf.entry_point);

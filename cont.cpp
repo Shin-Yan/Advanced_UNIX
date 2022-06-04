@@ -43,7 +43,7 @@ unsigned long long check_bp(){
         // printf("PC = 0x%llx\n",get_reg_value("RIP")); 
         if(WSTOPSIG(status) != SIGTRAP){
             printf("** %d stop by signal\n", loaded_program.pid);
-            loaded_program.pid = 0;
+            init_program();
             state = STATE_LOADED;
             return RETURN_TERMINATE;
         }
@@ -70,7 +70,7 @@ unsigned long long check_bp(){
             printf("** %d stop by signal", loaded_program.pid);
         else
            printf("** chlid process %d terminiated normally (code %d)\n", loaded_program.pid, status);
-       loaded_program.pid = 0;
+       init_program();
        state = STATE_LOADED;
        return RETURN_TERMINATE;
     }
