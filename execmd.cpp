@@ -54,16 +54,17 @@ fptr find_cmd(string cmd){
 }
 
 int exe_cmd(string cmd){
-    
+    int ret = 0;
     stringstream cmds = stringstream(cmd);
     string command, arg1, arg2;
     cmds >> command >> arg1 >> arg2;
     fptr exe_cmd = find_cmd(command);
     if((command == "set" || command =="s") && exe_cmd != NULL)
-        return ((fptr2)exe_cmd)(arg1,arg2);
-    if(exe_cmd != NULL) 
-        return ((fptr1)exe_cmd)(arg1);
-    return 0;
+        ret = ((fptr2)exe_cmd)(arg1,arg2);
+    else if(exe_cmd != NULL) 
+        ret = ((fptr1)exe_cmd)(arg1);
+    fflush(stdout);
+    return ret;
 }
 
 int quit(string cmd){
