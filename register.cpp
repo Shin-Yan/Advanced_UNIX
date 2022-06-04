@@ -35,7 +35,7 @@ int getreg(string reg){
         return 0;
     }
     if(ptrace(PTRACE_GETREGS, loaded_program.pid, 0, &loaded_program.regs) < 0) {
-        perror("ptrace");
+        perror("** ptrace");
         return 0;
     }
     for(int i = 0 ; i < reg_num ; i++){
