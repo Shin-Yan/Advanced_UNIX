@@ -19,7 +19,6 @@ int get_elf_info(string path){
     // get entry point
     unsigned long long entry_point = get_Lvalue(ENTRY_POINT_SIZE,ENTRY_POINT_OFFSET,elf);
     loaded_program.loaded_elf.entry_point = entry_point;
-    loaded_program.loaded_elf.virtual_address = entry_point;
 
     //get sh information
     unsigned long long shoff = get_Lvalue(E_SHOFF_SIZE,E_SHOFF_OFFSET,elf);

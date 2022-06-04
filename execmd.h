@@ -14,6 +14,7 @@
 #include "register.h"
 #include "cont.h"
 #include "run.h"
+#include "disasm.h"
 
 #define STATE_NOT_LOADED 1
 #define STATE_LOADED 2
@@ -43,7 +44,6 @@ typedef struct Command{
 
 typedef struct elf_header{
     unsigned long long entry_point;
-    unsigned long long virtual_address;
     unsigned long long offset;
     size_t size;
 } elf_header;

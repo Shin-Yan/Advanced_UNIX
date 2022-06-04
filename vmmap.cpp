@@ -10,7 +10,7 @@ int vmmap(string cmd){
     else{
         // cout << "** state is RUNNING" <<endl;
         string path = "/proc/" + to_string(loaded_program.pid) + "/maps";
-        cout << "pid = " << loaded_program.pid <<endl;
+        // cout << "pid = " << loaded_program.pid <<endl;
         FILE* f = fopen(path.c_str(), "r");
         if (f == NULL){
             perror("** fopen");

@@ -1,14 +1,7 @@
 #include"break.h"
 
 bool addr_in_text(unsigned long long addr){
-//    if(state == STATE_RUNNING && loaded_program.dynamic == 1) {
-//        cout << loaded_program.base_addr <<" " << loaded_program.loaded_elf.virtual_address << endl;
-//         unsigned long long true_addr = loaded_program.base_addr + loaded_program.loaded_elf.virtual_address;
-//         printf("It's dynamic and true addr is 0x%llx\n",true_addr);
-//         return (addr >= true_addr && addr <= (true_addr + loaded_program.loaded_elf.size));
-//     }
-//     cout << "It's not dynamic" << endl;
-    return (addr >= loaded_program.loaded_elf.virtual_address && addr < (loaded_program.loaded_elf.virtual_address + loaded_program.loaded_elf.size));
+    return (addr >= loaded_program.loaded_elf.entry_point && addr < (loaded_program.loaded_elf.entry_point + loaded_program.loaded_elf.size));
 }
 
 unsigned char change_byte(unsigned long long address, unsigned char cmd) {

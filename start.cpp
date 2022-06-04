@@ -33,7 +33,7 @@ int start(string cmd){
             perror("** ptrace");
             return 0;
         }
-        char * args[] = {(char*)("./"+loaded_program.program_name).c_str(), NULL};
+        char * args[] = {(char*)(loaded_program.program_name).c_str(), NULL};
         
         if(execvp(args[0],args) == -1){
             perror("** execvp");
